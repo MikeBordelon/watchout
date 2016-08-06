@@ -9,10 +9,10 @@
 var gameOptions = { 
   width: 750,
   height: 700,
-  nEnemies: 50,
+  nEnemies: 40,
   padding: 20,
   nRadius: 20,
-  timeBetweenMoves: 6000,
+  timeBetweenMoves: 2000,
   pRadius: 10
 };
 
@@ -48,8 +48,7 @@ var enemies = gameWindow.selectAll('.enemy')
         left: randomX,
         width: numToPixel(gameOptions.nRadius * 2),
         height: numToPixel(gameOptions.nRadius * 2),
-        background: '#fff',
-        opacity: .55
+        opacity: 1
       });
 
 // update enemy position
@@ -66,7 +65,7 @@ var move = function(array) {
 
 move(enemies);
 
-
+// PLAYER
 var player = gameWindow.selectAll('.player')
               .data([1])
               .enter() 
@@ -77,14 +76,119 @@ var player = gameWindow.selectAll('.player')
                 left: randomX,
                 width: numToPixel(gameOptions.pRadius * 2),
                 height: numToPixel(gameOptions.pRadius * 2),
-                background: 'orange',
-                opacity: 1
+                opacity: 1,
+                background: 'yellow'
               });
 
 
+
+// make draggable (via jQuery UI)
 $(function () {
   $('.player').draggable();
 });
+
+
+var enemyPosition = [];
+
+for ( var i = 0; i < enemies.length; i ++ ) {
+  for (var k in enemies[i]) {
+    var eachEnemy = enemies[i][k];
+
+    
+    var posX = eachEnemy.outerHTML.split(' ')[5].slice(0, -3);
+    var posY = eachEnemy.outerHTML.split(' ')[3].slice(0, -3);
+
+    enemyPosition.push([posX, posY]);
+  } 
+
+  enemyPosition.pop();
+  console.log(enemyPosition);
+}
+
+// for ( var i = 0; i < enemies.length; i ++ ) {
+//   for (var k in enemies[i]) {
+//     var eachEnemy = enemies[i][k];
+
+//     var enemyPositionX = eachEnemy.outerHTML.split(' ')[5].slice(0, -3);
+//     var enemyPositionY = eachEnemy.outerHTML.split(' ')[3].slice(0, -3);
+//     enemyPosition[i] = enemyPositionX + ',' + enemyPositionY;
+//   } 
+  
+// }
+
+// mouse tracking
+var playerPosition = [];
+
+gameWindow.on('mousemove', function() {
+  
+  var positionX = d3.event.clientX;
+  var positionY = d3.event.clientY;
+  
+  playerPosition[0] = positionX;
+  playerPosition[1] = positionY;
+  var mousePos = d3.mouse(this);
+
+  console.log(mousePos);
+});
+
+
+
+// COLLISION DETECTION 
+var checkCollision = function (enemy, collidedCallback) {
+
+  var radiusSum = gameOptions.nRadius + gameOptions.pRadius;
+  
+    
+  for ( var i = 0; i < enemyPosition.length; i ++ ) {
+    
+    var xDiff = enemyPosition[i][0] - playerPosition[0];
+    var yDiff = enemyPosition[i][1] - playerPosition[1];
+
+    var separation = Math.sqrt( Math.pow(xDiff, 2) + Math.pow(yDiff, 2 ));
+
+    if ( separation < radiusSum ) {
+      collisionCount++;
+      currScore = 0;
+      console.log('We have collision!');
+    }
+  
+ /*   console.log(xDiff);*/
+  }
+/*
+  console.log(xDiff, yDiff);*/
+};
+
+d3.timer(checkCollision);
+
+
+
+
+
+// $('.board').bind('mouseover', function(ev) {
+//   var $div = $(ev.target);
+//   var $positionTest = $div.find('.positionTest');
+
+//   var offset = $div.offset();
+//   var x = ev.clientX - offset.left;
+//   var y = ev.clientY - offset.top;
+
+//   $positionTest.text('x: ' + x + ', y' + y );
+
+// });
+
+
+//store player coordinates
+/*var playerLocation = d3.mouse(gameWindow);*/
+// playerLocation = d3.mouse(this);
+// var playerX = playerLocation[0];
+// var playerY = playerLocation[1];
+
+// console.log(playerLocation);
+
+// var mouse = d3.select('.player');
+// mouse.on('click', function() {
+//   console.log(d3.mouse(mouse.node));
+// });
 
 
 
@@ -107,5 +211,5 @@ var scoreCounter = function() {
   updateScoreboard();
 };
 // speed of score increment
-setInterval(scoreCounter, 50);
+d3.timer(scoreCounter);
 

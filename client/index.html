@@ -11,13 +11,15 @@
     .board {
     border: #5386FF solid 16px;
     border-radius: 46.1px;
-    background: #152240;
+    background: url('https://newevolutiondesigns.com/images/freebies/galaxy-wallpaper-1.jpg');
     max-width: 750px;
+    background-size: cover;
     }
     .enemy {
       background-size: 100% 100%;
       position: absolute;
-      border-radius:40px;
+      background: url('http://www.freeiconspng.com/uploads/white-star-icon-13.png');
+      background-size: cover;
     }
     .scoreboard {
         border-radius: 24px;
@@ -35,19 +37,79 @@
         border: #000 solid 2px;
     }
     .player {
-      border-radius: 20px 
+      background-size: 100% 100%;
+      position: absolute;
+      background: url('http://www.freeiconspng.com/uploads/spaceship-png-icon-19.png');
+      background-size: cover;
+      border-radius: 20px;
+    }
+
+
+   
+    .positionTest {
+      margin: 200px;
+      color: white;
+    }
+    .enemy {
+
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 4000ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+    -moz-animation-name: spin;
+    -moz-animation-duration: 4000ms;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: linear;
+    -ms-animation-name: spin;
+    -ms-animation-duration: 4000ms;
+    -ms-animation-iteration-count: infinite;
+    -ms-animation-timing-function: linear;
+    
+    animation-name: spin;
+    animation-duration: 4000ms;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    }
+
+    @-ms-keyframes spin {
+      from { -ms-transform: rotate(0deg); }
+      to { -ms-transform: rotate(360deg); }
+    }
+    @-moz-keyframes spin {
+      from { -moz-transform: rotate(0deg); }
+      to { -moz-transform: rotate(360deg); }
+      }
+    @-webkit-keyframes spin {
+      from { -webkit-transform: rotate(0deg); }
+      to { -webkit-transform: rotate(360deg); }
+    }
+    @keyframes spin {
+      from {
+          transform:rotate(0deg);
+      }
+      to {
+          transform:rotate(360deg);
+      }
     }
     </style>
   </head>
   <body>
-    <div class="scoreboard">
+    
+    <div class="board">
+      <div class="scoreboard">
       <!-- Modify the scoreboard when important events occur in your game! -->
       <div class="highscore">High score: <span>0</span></div>
       <div class="current">Current score: <span>0</span></div>
       <div class="collisions">Collisions: <span>0</span></div>
     </div>
-    <div class="board"><div class="mouse"></div></div>
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script> -->
+    <div class ='positionTest'></div>
+    <div class="mouse"></div>
+    
+   
+      
+    </div>
+    <!--   -->
+
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="lib/d3.js" charset="utf-8"></script>
