@@ -4,7 +4,8 @@
 Feel free to use it if you like. */
 
 .board {
-    background: #000;
+    border: #000 solid 16px;
+    border-radius: 68px;
 }
 
 .scoreboard {

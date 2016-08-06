@@ -9,7 +9,7 @@ var gameOptions = {
   'width': '700',
   'nEnemies': 15,
   'padding': '20px',
-  'timeBetweenMoves': 1000
+  'timeBetweenMoves': 500
 };
 
 // apply dimensions to our "screen" and add needed objects
@@ -42,24 +42,25 @@ var gameMotor = function update(enemyData) {
   var enemies = gameWindow.selectAll('circle.enemy')
                 // this is the key function - used to attach name prop as identifier
                 .data(enemyData, function(d) { return d.id; })
-                .attr('cx', function (enemy) { return axes.x(enemy.x); });
+                .attr('cx', function (enemy) { return axes.x(enemy.x); })
+                .attr('cy', function (enemy) { return axes.y(enemy.y); })
+                .style('opacity', .55);
 
   // ENTER stage 
-  enemies.enter()
-         .append('svg:circle')
+  enemies.enter().append('svg:circle')
          .attr('class', 'enemy')
          .attr('cx', function (enemy) { return axes.x(enemy.x); })
          .attr('cy', function (enemy) { return axes.y(enemy.y); })
          .attr('r', 20)
-         .attr('fill', 'blue')
-         .transition().style('background-color', 'black');
+         .attr('fill', 'white')
+         /*.transition().attr('fill', 'black')*/;
 
   // EXIT stage
   enemies.exit()
          .remove()
 ;
 
-console.log(enemies);
+// console.log(enemies);
 };
 
 
@@ -98,7 +99,7 @@ var playGame = function () {
     var newEnemyPositions = makeEnemies();
     gameMotor(newEnemyPositions);
   };
-
+  gameTurn();
   setInterval(gameTurn, gameOptions.timeBetweenMoves);  
 };
 
